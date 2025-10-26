@@ -33,6 +33,6 @@ def top_ten(subreddit):
                 title = post.get('data', {}).get('title')
                 print(title)
         else:
-            print(None)
+            print("None")
     except Exception:
-        print(None)
+        print("None")
