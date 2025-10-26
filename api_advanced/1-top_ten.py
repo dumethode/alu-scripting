@@ -30,7 +30,9 @@ def top_ten(subreddit):
             data = response.json()
             posts = data.get('data', {}).get('children', [])
             for post in posts:
-                print(post.get('data', {}).get('title'))
+                title = post.get('data', {}).get('title')
+                if title:
+                    print(title)
         else:
             print(None)
     except Exception:
