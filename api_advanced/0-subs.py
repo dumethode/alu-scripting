@@ -1,35 +1,33 @@
 #!/usr/bin/python3
 """
-Queries the Reddit API and returns the number of subscribers
-for a given subreddit.
+Module that queries the Reddit API and returns the number of subscribers
+for a given subreddit
 """
 import requests
 
 
 def number_of_subscribers(subreddit):
     """
-    Returns the number of subscribers for a given subreddit.
-    Returns 0 if the subreddit is invalid.
+    Queries the Reddit API and returns the number of subscribers
+    for a given subreddit.
+    
+    Args:
+        subreddit: name of the subreddit
+        
+    Returns:
+        Number of subscribers, or 0 if invalid subreddit
     """
-    # Define the required custom User-Agent and API endpoint
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    headers = {
-        'User-Agent': 'alx-project-advanced-api:v1.0.0 (by /u/dumethode)'
-    }
-
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+               'AppleWebKit/537.36 (KHTML, like Gecko) '
+               'Chrome/91.0.4472.124 Safari/537.36'}
+    
     try:
-        # Send GET request. allow_redirects=False is required.
         response = requests.get(url, headers=headers, allow_redirects=False)
-
-        # Check if the status code indicates a successful request (200 OK)
         if response.status_code == 200:
             data = response.json()
-            # Extract the 'subscribers' field from the response data
-            return data['data']['subscribers']
+            return data.get('data', {}).get('subscribers', 0)
         else:
-            # Return 0 for invalid subreddits (404 Not Found) or other errors
             return 0
-
-    except requests.exceptions.RequestException:
-        # Handle connection errors
+    except Exception:
         return 0
